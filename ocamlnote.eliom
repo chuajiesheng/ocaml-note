@@ -3,17 +3,17 @@
   open Eliom_content
 }}
 
-module Ocaml-note_app =
+module Ocamlnote_app =
   Eliom_registration.App (
     struct
-      let application_name = "ocaml-note"
+      let application_name = "ocamlnote"
     end)
 
 let main_service =
   Eliom_service.service ~path:[] ~get_params:Eliom_parameter.unit ()
 
 let () =
-  Ocaml-note_app.register
+  Ocamlnote_app.register
     ~service:main_service
     (fun () () ->
       Lwt.return
