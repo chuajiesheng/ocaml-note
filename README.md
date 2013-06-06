@@ -10,5 +10,5 @@ Checklist for the application:
 - [ ] Edit styled text
 - [ ] Create/read/update/delete styled text
 - [ ] Tag notes
-- [ ] Categorizing notes]
+- [ ] Categorizing notes
 - [ ] Authentication mechanism
