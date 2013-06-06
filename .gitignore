@@ -7,3 +7,15 @@
 *.cmx
 *.cmxs
 *.cmxa
+
+local/*
+_deps/*
+_client/*
+_server/*
+*~
+*.DS_STORE
+*.depend
+*.client
+*.server
+*.type_mli
+*.log
