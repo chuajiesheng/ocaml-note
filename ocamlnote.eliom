@@ -161,7 +161,7 @@ let () =
       let title = "Editor" in
       let toolbar = div ~a:[a_id "toolbar"] [] in
       let editme = div ~a:[a_id "editMe"] [] in
-      let text = div ~a:[a_id "fieldContents"] [] in
+      let text = Raw.textarea ~a:[a_id "fieldContents"; a_placeholder "Write a message ..."] (pcdata "") in
       let submit = string_input ~input_type:`Submit ~value:"Set Content" () in
       let content = [h1 [pcdata "goog.editor"];
                      toolbar; editme; text; submit;
