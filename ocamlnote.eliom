@@ -55,6 +55,11 @@ let create_page mytitle mycontent =
           (css_links@[script_closure]))
        (body (mycontent)))
 
+let toolbar = div ~a:[a_id "toolbar"] []
+let editme = div ~a:[a_id "editMe"] []
+let text = Raw.textarea ~a:[a_id "fieldContents"; a_placeholder "Write a message ..."] (pcdata "")
+let submit = string_input ~input_type:`Submit ~value:"Set Content" ()
+
 {client{
   let get_el s = Js.Opt.get (Dom_html.document##getElementById(Js.string s))
     (fun _ -> Dom_html.window##alert (Js.string s); assert false)
@@ -143,26 +148,13 @@ let create_page mytitle mycontent =
 			   Js.some ((get_textarea "fieldContents")##value),
 			   Js.null, Js.null); Js._false);
     updateFieldContents()
-
-  let init_client () =
-    (
-      Eliom_lib.alert "hello";
-      register_plugins;
-      myToolbarController;
-      watch
-    )
 }}
 
 let () =
   Ocamlnote_app.register
     ~service:main_service
     (fun () () ->
-      let _ = ignore {unit{ init_client ()}} in
       let title = "Editor" in
-      let toolbar = div ~a:[a_id "toolbar"] [] in
-      let editme = div ~a:[a_id "editMe"] [] in
-      let text = Raw.textarea ~a:[a_id "fieldContents"; a_placeholder "Write a message ..."] (pcdata "") in
-      let submit = string_input ~input_type:`Submit ~value:"Set Content" () in
       let content = [h1 [pcdata "goog.editor"];
                      toolbar; editme; text; submit;
                      script_oclosure; script_main] in
