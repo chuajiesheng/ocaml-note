@@ -52,17 +52,16 @@ let create_page mytitle mycontent =
   Lwt.return
     (html
        (head (title (pcdata mytitle))
-          (css_links@[script_closure]))
+          ([script_closure]@css_links))
        (body (mycontent)))
 
 let toolbar = div ~a:[a_id "toolbar"] []
-let editme = div ~a:[a_id "editMe"] []
 let text = Raw.textarea ~a:[a_id "fieldContents"; a_placeholder "Write a message ..."] (pcdata "")
-let submit = string_input ~input_type:`Submit ~value:"Set Content" ()
+let submit = string_input ~a:[a_id "fieldContents_b"] ~input_type:`Submit ~value:"Set Content" ()
 
 {client{
   let get_el s = Js.Opt.get (Dom_html.document##getElementById(Js.string s))
-    (fun _ -> Dom_html.window##alert (Js.string s); assert false)
+    (fun _ -> Dom_html.window##alert (Js.string (s ^ " not found")); assert false)
 
   let get_textarea s = Js.Opt.get (Dom_html.CoerceTo.textarea (get_el s))
     (fun _ -> assert false)
@@ -140,8 +139,8 @@ let submit = string_input ~input_type:`Submit ~value:"Set Content" ()
       (Goog.Geditor.Field.EventType._DELAYEDCHANGE)
       (Js.wrap_callback updateFieldContents)
       Js.null);
-    myField##makeEditable(Js.null);
-    (get_input "setFieldContent_b")##onclick <-
+    (* myField##makeEditable(Js.null); *)
+    (get_input "fieldContents_b")##onclick <-
       Dom_html.handler (
         fun _ ->
 	  myField##setHtml(Js._false,
@@ -154,9 +153,10 @@ let () =
   Ocamlnote_app.register
     ~service:main_service
     (fun () () ->
+      let _ = ignore { unit { Eliom_lib.alert "Hello :)"; updateFieldContents() }} in
       let title = "Editor" in
-      let content = [h1 [pcdata "goog.editor"];
-                     toolbar; editme; text; submit;
-                     script_oclosure; script_main] in
+      let editme = div ~a:[a_id "editMe"] [] in
+      let content = [h1 [pcdata "goog.editor"]; script_oclosure;
+                     toolbar; editme; text; submit; script_main] in
       create_page title content
     )
