@@ -12,7 +12,7 @@ include Makefile.options
 ##			      Internals
 
 ## Required binaries
-ELIOMC            := eliomc
+ELIOMC            := eliomc -annot
 ELIOMOPT          := eliomopt
 JS_OF_ELIOM       := js_of_eliom
 ELIOMDEP          := eliomdep
@@ -55,12 +55,16 @@ DIST_FILES = $(ELIOMSTATICDIR)/$(PROJECT_NAME).js $(LIBDIR)/$(PROJECT_NAME).cma
 
 .PHONY: test.byte test.opt
 test.byte: $(addprefix $(TEST_PREFIX),$(ETCDIR)/$(PROJECT_NAME)-test.conf $(DIST_DIRS) $(DIST_FILES))
+	-cp $(ELIOM_SERVER_DIR)/*.annot .
 	$(OCSIGENSERVER) $(RUN_DEBUG) -c $<
 test.opt: $(addprefix $(TEST_PREFIX),$(ETCDIR)/$(PROJECT_NAME)-test.conf $(DIST_DIRS) $(patsubst %.cma,%.cmxs, $(DIST_FILES)))
 	$(OCSIGENSERVER.OPT) $(RUN_DEBUG) -c $<
 
 $(addprefix $(TEST_PREFIX), $(DIST_DIRS)):
 	mkdir -p $@
+
+test.annot:
+	-cp $(ELIOM_SERVER_DIR)/*.annot .
 
 ##----------------------------------------------------------------------
 ## Installing & Running
