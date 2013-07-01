@@ -8,12 +8,12 @@ PROJECT_NAME := ocaml-note
 # Source files for the server
 SERVER_FILES := $(wildcard *.eliomi *.eliom)
 # Source files for the client
-CLIENT_FILES := $(wildcard *.eliomi *.eliom)
+CLIENT_FILES := $(wildcard *.eliomi *.eliom *.ml)
 
 # OCamlfind packages for the server
 SERVER_PACKAGES :=
 # OCamlfind packages for the client
-CLIENT_PACKAGES :=
+CLIENT_PACKAGES := oclosure
 
 # Directory with files to be statically served
 LOCAL_STATIC = static

@@ -36,6 +36,9 @@ let css =
 let css_links =
   List.map (function css -> (css_link (static css) ())) css
 
+let js_oclosure = js_script (static ["ocaml-note_oclosure.js"]) ()
+let js = js_script (static ["ocaml-note.js"]) ()
+
 let create_page mytitle mycontent =
   Lwt.return
     (html
@@ -64,6 +67,7 @@ let () =
                      toolbar; editme;
                      hr ();
                      p [ b [pcdata "Current field contents"]];
-                     text; br(); submit] in
+                     text; br(); submit;
+                     js_oclosure; js] in
       create_page title content
     )
