@@ -1,6 +1,7 @@
 {shared{
   open Eliom_lib
   open Eliom_content
+  open Eliom_content.Html5.D
 }}
 
 module Ocamlnote_app =
@@ -12,14 +13,36 @@ module Ocamlnote_app =
 let main_service =
   Eliom_service.service ~path:[] ~get_params:Eliom_parameter.unit ()
 
+let create_page mytitle mycontent =
+  Lwt.return
+    (html
+       (head (title (pcdata mytitle))
+          ([]
+            (* script and css come here *)
+          ))
+       (body (mycontent)))
+
 let () =
   Ocamlnote_app.register
     ~service:main_service
     (fun () () ->
-      Lwt.return
-        (Eliom_tools.F.html
-           ~title:"ocaml-note"
-           ~css:[["css";"ocaml-note.css"]]
-           Html5.F.(body [
-             h2 [pcdata "Welcome from Eliom's destillery!"];
-           ])))
+      let title = "Editor" in
+      let toolbar = div
+        ~a:[a_id "toolbar"; a_style "width:602px"] [] in
+      let editme = div ~a:[a_id "editMe"] [] in
+      let text = Raw.textarea
+        ~a:[a_id "fieldContents"; a_placeholder "Write a message ...";
+            a_style "height:100px;width:400px;"] (pcdata "") in
+      let submit = string_input
+        ~a:[a_id "fieldContents_b"]
+        ~input_type:`Submit ~value:"Set Content" () in
+      let content = [h1 [pcdata "goog.editor"];
+                     p [pcdata "This is a demonstration of a editable field,
+                               with installed plugins, hooked up to a toolbar."];
+                     br ();
+                     toolbar; editme;
+                     hr ();
+                     p [ b [pcdata "Current field contents"]];
+                     text; br(); submit] in
+      create_page title content
+    )
