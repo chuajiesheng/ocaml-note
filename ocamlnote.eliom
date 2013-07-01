@@ -13,13 +13,34 @@ module Ocamlnote_app =
 let main_service =
   Eliom_service.service ~path:[] ~get_params:Eliom_parameter.unit ()
 
+let static s = make_uri ~service:(Eliom_service.static_dir ()) s
+
+let css =
+  [["css";"button.css"];
+   ["css";"dialog.css"];
+   ["css";"linkbutton.css"];
+   ["css";"menu.css"];
+   ["css";"menuitem.css"];
+   ["css";"menuseparator.css"];
+   ["css";"tab.css"];
+   ["css";"tabbar.css"];
+   ["css";"toolbar.css"];
+   ["css";"colormenubutton.css"];
+   ["css";"palette.css"];
+   ["css";"colorpalette.css"];
+   ["css";"bubble.css"];
+   ["css";"dialog.css"];
+   ["css";"linkdialog.css"];
+   ["css";"editortoolbar.css"]]
+
+let css_links =
+  List.map (function css -> (css_link (static css) ())) css
+
 let create_page mytitle mycontent =
   Lwt.return
     (html
        (head (title (pcdata mytitle))
-          ([]
-            (* script and css come here *)
-          ))
+          (css_links))
        (body (mycontent)))
 
 let () =
