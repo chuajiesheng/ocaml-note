@@ -1,6 +1,14 @@
 Ocaml-Note
 ==========
 
+Current Status
+--------------
+dev3 branch would attempt to use the a eliom generated HTML page which
+would call a js_of_ocaml generated JS script to start the editor codes
+
+Overview
+--------
+
 This example provide a testbed to understand the various functionality of
 various OCaml based framework, specifically Eliom, O'Closure, and Macaque.
 
