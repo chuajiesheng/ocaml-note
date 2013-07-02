@@ -6,6 +6,17 @@ Current Status
 dev3 branch would attempt to use the a eliom generated HTML page which
 would call a js_of_ocaml generated JS script to start the editor codes
 
+Resolution Update:
+
+1.  When google's oclosure library create an iframe via  
+
+        this.originalDomHelper.createDom(goog.dom.TagName.IFRAME,
+            this.getIframeAttributes()));
+    
+    The upper case of "IFRAME" cause the browser to operate differently as 
+    compared to "iframe". Thus the temporary solution would be to overwrite
+    the constant and replace it with "iframe".
+
 Overview
 --------
 
