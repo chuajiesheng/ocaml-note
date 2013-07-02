@@ -14291,7 +14291,7 @@ goog.dom.TagName = {
   DEL: 'DEL',
   DFN: 'DFN',
   DIR: 'DIR',
-  DIV: 'DIV',
+  DIV: 'div',
   DL: 'DL',
   DT: 'DT',
   EM: 'EM',
