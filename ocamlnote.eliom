@@ -16,7 +16,8 @@ let main_service =
 let static s = make_uri ~service:(Eliom_service.static_dir ()) s
 
 let css =
-  [["css";"button.css"];
+  [["css";"demo.css"];
+   ["css";"button.css"];
    ["css";"dialog.css"];
    ["css";"linkbutton.css"];
    ["css";"menu.css"];
@@ -36,6 +37,12 @@ let css =
 let css_links =
   List.map (function css -> (css_link (static css) ())) css
 
+let script_closure =
+  js_script (uri_of_string
+    (function () ->
+      "http://closure-library.googlecode.com/svn/trunk/closure/goog/base.js"))
+    ()
+
 let js_oclosure = js_script (static ["test_editor_req.js"]) ()
 let js = js_script (static ["test_editor.js"]) ()
 
@@ -43,7 +50,7 @@ let create_page mytitle mycontent =
   Lwt.return
     (html
        (head (title (pcdata mytitle))
-          (css_links))
+          ([script_closure; js_oclosure]@css_links))
        (body (mycontent)))
 
 let () =
@@ -53,12 +60,15 @@ let () =
       let title = "Editor" in
       let toolbar = div
         ~a:[a_id "toolbar"; a_style "width:602px"] [] in
-      let editme = div ~a:[a_id "editMe"] [] in
+      let editme = div
+        ~a:[a_id "editMe"; a_style "width: 600px; height: 300px;
+                                    background-color: white;
+                                    border: 1px solid grey;";] [] in
       let text = Raw.textarea
         ~a:[a_id "fieldContents"; a_placeholder "Write a message ...";
             a_style "height:100px;width:400px;"] (pcdata "") in
       let submit = string_input
-        ~a:[a_id "fieldContents_b"]
+        ~a:[a_id "setFieldContent_b"]
         ~input_type:`Submit ~value:"Set Content" () in
       let content = [h1 [pcdata "goog.editor"];
                      p [pcdata "This is a demonstration of a editable field,
@@ -67,7 +77,6 @@ let () =
                      toolbar; editme;
                      hr ();
                      p [ b [pcdata "Current field contents"]];
-                     text; br(); submit;
-                     js_oclosure; js] in
+                     text; br(); submit; js] in
       create_page title content
     )
