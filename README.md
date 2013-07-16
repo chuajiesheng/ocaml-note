@@ -16,6 +16,12 @@ Resolution Update:
     The upper case of "IFRAME" cause the browser to operate differently as
     compared to "iframe". Thus the temporary solution would be to overwrite
     the constant and replace it with "iframe".
+2.  When google's oclosure library create a div via the constant declared
+
+        DIV: 'DIV'
+    
+    at line 14294. The 'DIV' did not work correctly as compared to 'div'
+    thus changing it to 'div' would make the script work.
 
 Overview
 --------
