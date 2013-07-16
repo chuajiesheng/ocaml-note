@@ -7,7 +7,7 @@
 module Ocamlnote_app =
   Eliom_registration.App (
     struct
-      let application_name = "ocamlnote"
+      let application_name = "note"
     end)
 
 let main_service =
@@ -43,8 +43,8 @@ let script_closure =
       "http://closure-library.googlecode.com/svn/trunk/closure/goog/base.js"))
     ()
 
-let js_oclosure = js_script (static ["test_editor_req.js"]) ()
-let js = js_script (static ["test_editor.js"]) ()
+let js_oclosure = js_script (static ["ocaml-note_oclosure.js"]) ()
+let js = js_script (static ["ocaml-note.js"]) ()
 
 let create_page mytitle mycontent =
   Lwt.return
