@@ -8,12 +8,12 @@ would call a js_of_ocaml generated JS script to start the editor codes
 
 Resolution Update:
 
-1.  When google's oclosure library create an iframe via  
+1.  When google's oclosure library create an iframe via
 
         this.originalDomHelper.createDom(goog.dom.TagName.IFRAME,
             this.getIframeAttributes()));
-    
-    The upper case of "IFRAME" cause the browser to operate differently as 
+
+    The upper case of "IFRAME" cause the browser to operate differently as
     compared to "iframe". Thus the temporary solution would be to overwrite
     the constant and replace it with "iframe".
 
@@ -24,9 +24,9 @@ This example provide a testbed to understand the various functionality of
 various OCaml based framework, specifically Eliom, O'Closure, and Macaque.
 
 Checklist for the application:
-- [ ] HTML-based text editor
-- [ ] Create styled text
-- [ ] Edit styled text
+- [x] HTML-based text editor
+- [x] Create styled text
+- [x] Edit styled text
 - [ ] Create/read/update/delete styled text
 - [ ] Tag notes
 - [ ] Categorizing notes
