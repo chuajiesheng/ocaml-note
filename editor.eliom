@@ -1,3 +1,5 @@
+{client{
+
 let get_el s = Js.Opt.get (Dom_html.document##getElementById(Js.string s))
     (fun _ -> Dom_html.window##alert (Js.string s); assert false)
 
@@ -7,32 +9,32 @@ let get_textarea s = Js.Opt.get (Dom_html.CoerceTo.textarea (get_el s))
 (* Create an editable field. *)
 let myField = jsnew Goog.Geditor.field(Js.string "editMe", Js.null)
 
-let updateFieldContents _ = 
+let updateFieldContents _ =
   (get_textarea "fieldContents")##value <- myField##getCleanContents()
- 
+
 (* Create and register all of the editing plugins you want to use *)
-let _ = 
-  Goog.Geditor.Field.registerPlugin myField 
+let _ =
+  Goog.Geditor.Field.registerPlugin myField
     (jsnew Goog.Geditor.Plugins.basicTextFormatter());
-  Goog.Geditor.Field.registerPlugin myField 
+  Goog.Geditor.Field.registerPlugin myField
     (jsnew Goog.Geditor.Plugins.removeFormatting());
-  Goog.Geditor.Field.registerPlugin myField 
+  Goog.Geditor.Field.registerPlugin myField
     (jsnew Goog.Geditor.Plugins.undoRedo(Js.null));
-  Goog.Geditor.Field.registerPlugin myField 
+  Goog.Geditor.Field.registerPlugin myField
     (jsnew Goog.Geditor.Plugins.listTabHandler());
-  Goog.Geditor.Field.registerPlugin myField 
+  Goog.Geditor.Field.registerPlugin myField
     (jsnew Goog.Geditor.Plugins.spacesTabHandler());
-  Goog.Geditor.Field.registerPlugin myField 
+  Goog.Geditor.Field.registerPlugin myField
     (jsnew Goog.Geditor.Plugins.enterHandler());
-  Goog.Geditor.Field.registerPlugin myField 
+  Goog.Geditor.Field.registerPlugin myField
     (jsnew Goog.Geditor.Plugins.headerFormatter());
-  Goog.Geditor.Field.registerPlugin myField 
+  Goog.Geditor.Field.registerPlugin myField
     (jsnew Goog.Geditor.Plugins.loremIpsum(Js.string "Click here to edit"));
-  Goog.Geditor.Field.registerPlugin myField 
+  Goog.Geditor.Field.registerPlugin myField
     (jsnew Goog.Geditor.Plugins.linkDialogPlugin());
-  Goog.Geditor.Field.registerPlugin myField 
+  Goog.Geditor.Field.registerPlugin myField
     (jsnew Goog.Geditor.Plugins.linkBubble(Js.array [||]))
- 
+
 (* Specify the buttons to add to the toolbar, using built in default buttons. *)
 let buttons = Js.array (Array.map Goog.Tools.Union.i1 [|
   Goog.Geditor.Command._BOLD;
@@ -58,15 +60,15 @@ let buttons = Js.array (Array.map Goog.Tools.Union.i1 [|
   Goog.Geditor.Command._REMOVE_FORMAT
 |])
 
-let myToolbar = Goog.Ui.Editor.DefaultToolbar.makeToolbar 
+let myToolbar = Goog.Ui.Editor.DefaultToolbar.makeToolbar
     buttons
     (get_el "toolbar")
     Js.null
- 
+
 (* Hook the toolbar into the field *)
 let myToolbarController =
   jsnew Goog.Ui.Editor.toolbarController(myField, myToolbar)
- 
+
 let get_input s = Js.Opt.get (Dom_html.CoerceTo.input(get_el s))
     (fun _ -> assert false)
 
@@ -78,10 +80,12 @@ let _ = ignore(
     (Js.wrap_callback updateFieldContents)
     Js.null);
   myField##makeEditable(Js.null);
-  (get_input "setFieldContent_b")##onclick <- 
+  (get_input "setFieldContent_b")##onclick <-
     Dom_html.handler (
-      fun _ -> 
-	myField##setHtml(Js._false, 
-			 Js.some ((get_textarea "fieldContents")##value), 
+      fun _ ->
+	myField##setHtml(Js._false,
+			 Js.some ((get_textarea "fieldContents")##value),
 			 Js.null, Js.null); Js._false);
   updateFieldContents();
+
+}}
