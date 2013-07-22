@@ -46,7 +46,7 @@ let users = <:table< users (
 
 let onote_id_seq = <:sequence< serial "onote_id_seq">>
 
-let onote = <:table< bookmarks (
+let onote = <:table< onote (
   id integer NOT NULL DEFAULT(nextval $onote_id_seq$),
   user_id integer NOT NULL,
   name text NOT NULL,
@@ -106,6 +106,15 @@ let change_user_pwd id name pwd =
     | u.id = $int32:id$;
       u.username = $string:name$; >>
   )
+
+let find_all_onote () =
+  (get_db () >>= fun dbh ->
+   Lwt_Query.view dbh
+   <:view< {id = onote_.id;
+            user_id = onote_.user_id;
+            name = onote_.name;
+            note = onote_.note} |
+            onote_ in $onote$; >>)
 
 let find_onote_from_users user_id =
   (get_db () >>= fun dbh ->
