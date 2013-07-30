@@ -135,8 +135,12 @@ let () =
             match all_note with
             | head::tail ->
               let raw = "<p>" ^ Sql.get head#note ^ "</p>" in
+              let _ = Eliom_lib.debug "[raw]: %s" raw in
+              let regex = Str.regexp (Str.quote "<br>") in
+              let replaced = Str.global_replace regex "<br />" raw in
+              let _ = Eliom_lib.debug "[replaced]: %s" replaced in
               let note =
-                (Html5.F.unsafe_data raw : [> Html5_types.p ] Html5.F.elt) in
+                (Html5.F.unsafe_data replaced : [> Html5_types.p ] Html5.F.elt) in
               (note)::(read_note tail)
             | _ -> [p [pcdata "end"]] in
           let title = "View" in
