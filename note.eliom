@@ -134,8 +134,10 @@ let () =
           let rec read_note all_note =
             match all_note with
             | head::tail ->
-              let note = Sql.get head#note in
-              (p [pcdata note])::(read_note tail)
+              let raw = "<p>" ^ Sql.get head#note ^ "</p>" in
+              let note =
+                (Html5.F.unsafe_data raw : [> Html5_types.p ] Html5.F.elt) in
+              (note)::(read_note tail)
             | _ -> [p [pcdata "end"]] in
           let title = "View" in
           let content = read_note notes in
