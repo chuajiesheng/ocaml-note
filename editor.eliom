@@ -1,10 +1,10 @@
 {client{
 
 let get_el s = Js.Opt.get (Dom_html.document##getElementById(Js.string s))
-    (fun _ -> Dom_html.window##alert (Js.string s); assert false)
+  (fun _ -> Dom_html.window##alert (Js.string s); assert false)
 
 let get_textarea s = Js.Opt.get (Dom_html.CoerceTo.textarea (get_el s))
-    (fun _ -> assert false)
+  (fun _ -> assert false)
 
 (* Create an editable field. *)
 let myField = jsnew Goog.Geditor.field(Js.string "editMe", Js.null)
